@@ -2,32 +2,44 @@ import * as React from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
 import ColorThief from "colorthief";
-import { blue } from "@material-ui/core/colors";
+
+//import { makeStyles, createStyles } from "@material-ui/styles";
 import {
   createMuiTheme,
-  Theme as AugmentedTheme
+  Theme as AugmentedTheme/*,
+  makeStyles,
+  createStyles*/
 } from "@material-ui/core/styles";
 import AppBar from "./appBar/AppBar";
 import { ThemeProvider } from "@material-ui/styles";
+
 import ButtonList from "./buttonList/ButtonList";
-import InputFields from "./inputFields/InputFields";
-import Grid from "@material-ui/core/Grid";
+//components
+
 import DragAreaPicture from "./dragAreaPicture/DragAreaPicture";
-import { Typography, Paper } from "@material-ui/core";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import { blue } from "@material-ui/core/colors";
 
-export default () => {
-  const [theme, setTheme] = React.useState<AugmentedTheme>(
-    createMuiTheme({
-      palette: {
-        secondary: {
-          main: blue[500]
-        }
+export default (props: {}) => {
+  const [theme, setTheme] = React.useState<AugmentedTheme | object>({});
+
+  /*const useStyles = makeStyles((theme: AugmentedTheme ) =>
+  createStyles({
+    "@global": {
+      body: {
+        backgroundColor: "#fff"
       }
-    })
-  );
+    },
+    paper: {
+      marginTop: 10,
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center"
+    }
+  })
+);*/
 
-  const [color, setColor] = React.useState<string>(blue[500]);
+  //const classes = useStyles(props);
+  const [color, setColor] = React.useState<string>(blue.toString());
 
   const [uploaded, setUpload] = React.useState<
     HTMLImageElement | string | null
@@ -46,18 +58,20 @@ export default () => {
 
     setColor(rgbToHex(result[0], result[1], result[2]));
 
-    setTheme(
-      createMuiTheme({
-        palette: {
-          primary: {
-            main: rgbToHex(result[0], result[1], result[2])
-          },
-          secondary: {
-            main: blue[300]
-          }
+    /*createMuiTheme({ 'palette': {
+      primary: blue,
+      secondary: color,
+    }})*/
+    const theme = createMuiTheme({
+      spacing: 4,
+      palette: {
+        primary: {
+          main: rgbToHex(result[0], result[1], result[2])
         }
-      })
-    );
+      }
+    });
+
+    setTheme(theme);
   };
 
   function rgbToHex(r: number, g: number, b: number): string {
@@ -77,27 +91,13 @@ export default () => {
     }
   }
 
-  const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-      paper: {
-        padding: 8
-      }
-    })
-  );
-
-  const classes = useStyles();
-
   return (
     <Container component="main">
       <CssBaseline />
 
       <ThemeProvider theme={theme}>
-        <AppBar />
-        <Paper className={classes.paper}>
-          <Typography variant="h4" color="primary">
-            Upload your logo
-          </Typography>
-
+        <AppBar/>
+        <div>
           {!uploaded && <DragAreaPicture onComplete={imageUploaded} />}
           {uploaded && (
             <img
@@ -110,22 +110,8 @@ export default () => {
               onLoad={getColor}
             />
           )}
-        </Paper>
-        <Grid container spacing={3}>
-          <Grid item xs={6}>
-            <ButtonList />
-          </Grid>
-          <Grid item xs={6}>
-            <InputFields />
-          </Grid>
-        </Grid>
-        <Typography variant="h5" color="primary">
-          Theme info
-        </Typography>
-        <Typography>
-          Primary color: <strong>{color}</strong>
-          <br />
-        </Typography>
+          <ButtonList/>
+        </div>
       </ThemeProvider>
     </Container>
   );

@@ -11,10 +11,12 @@ const useStyles = makeStyles(() =>
     root: {
       minWidth: 300,
       minHeight: 300,
+      maxWidth: '33%',
+      marginTop: '16px',
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      border: "4px dashed #ccc",
+      border: "2px dashed #ccc",
       cursor: "pointer"
     },
     icon: {
