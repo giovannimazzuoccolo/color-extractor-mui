@@ -16,7 +16,7 @@ import DragAreaPicture from "./dragAreaPicture/DragAreaPicture";
 import { Typography, Paper } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import ThemeInfo from './themeInfo/ThemeInfo';
-import Palette from './palette/Palette';
+import Shades from './shades/Shades';
 
 export default () => {
   const [theme, setTheme] = React.useState<AugmentedTheme>(
@@ -133,7 +133,7 @@ export default () => {
             </>
           )}
         
-        <Palette primaryColor={color} secondaryColor={blue[600]} />
+        <Shades primaryColor={color} secondaryColor={blue[600]} />
         </Paper>
         <Grid container spacing={3}>
           <Grid item xs={6}>
