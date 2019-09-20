@@ -18,6 +18,11 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import ThemeInfo from './themeInfo/ThemeInfo';
 import Shades from './shades/Shades';
 
+/**
+ * TODO:add contrast ratio for accessibility https://polished.js.org/docs/#meetscontrastguidelines
+ * add a menu for palette
+ */
+
 export default () => {
   const [theme, setTheme] = React.useState<AugmentedTheme>(
     createMuiTheme({
