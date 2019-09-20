@@ -9,7 +9,7 @@ import { Typography } from "@material-ui/core";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 
-const InputFields: React.SFC = () => {
+const InputFields: React.FunctionComponent = () => {
   const useStyles = makeStyles((theme: Theme) =>
     createStyles({
       root: {

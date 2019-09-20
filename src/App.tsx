@@ -15,6 +15,8 @@ import Grid from "@material-ui/core/Grid";
 import DragAreaPicture from "./dragAreaPicture/DragAreaPicture";
 import { Typography, Paper } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import ThemeInfo from './themeInfo/ThemeInfo';
+import Palette from './palette/Palette';
 
 export default () => {
   const [theme, setTheme] = React.useState<AugmentedTheme>(
@@ -53,7 +55,7 @@ export default () => {
             main: rgbToHex(result[0], result[1], result[2])
           },
           secondary: {
-            main: blue[300]
+            main: blue[500]
           }
         }
       })
@@ -80,6 +82,16 @@ export default () => {
   const useStyles = makeStyles((theme: Theme) =>
     createStyles({
       paper: {
+        padding: 8,
+        marginBottom: 8
+      },
+      imageLoader: {
+        display: "none"
+      },
+      imageDisplayed: {
+        maxHeight: 100,
+        maxWidth: 200,
+        marginTop: 16,
         padding: 8
       }
     })
@@ -100,16 +112,28 @@ export default () => {
 
           {!uploaded && <DragAreaPicture onComplete={imageUploaded} />}
           {uploaded && (
-            <img
-              crossOrigin={"anonymous"}
-              src={uploaded.toString()}
-              ref={imgRef}
-              alt="uploader"
-              width={widthHeight.width}
-              height={widthHeight.height}
-              onLoad={getColor}
-            />
+            <>
+              <img
+                crossOrigin={"anonymous"}
+                src={uploaded.toString()}
+                ref={imgRef}
+                alt="uploader"
+                width={widthHeight.width}
+                height={widthHeight.height}
+                onLoad={getColor}
+                className={classes.imageLoader}
+              />
+              <img
+                crossOrigin={"anonymous"}
+                src={uploaded.toString()}
+                alt="uploaded"
+                className={classes.imageDisplayed}
+              />
+              <DragAreaPicture onComplete={imageUploaded} small />
+            </>
           )}
+        
+        <Palette primaryColor={color} secondaryColor={blue[600]} />
         </Paper>
         <Grid container spacing={3}>
           <Grid item xs={6}>
@@ -119,13 +143,7 @@ export default () => {
             <InputFields />
           </Grid>
         </Grid>
-        <Typography variant="h5" color="primary">
-          Theme info
-        </Typography>
-        <Typography>
-          Primary color: <strong>{color}</strong>
-          <br />
-        </Typography>
+        <ThemeInfo color={color} />
       </ThemeProvider>
     </Container>
   );

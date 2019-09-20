@@ -4,7 +4,7 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import { Typography } from "@material-ui/core";
 
-const ButtonList: React.SFC = () => {
+const ButtonList: React.FunctionComponent = () => {
   const useStyles = makeStyles((theme: Theme) =>
     createStyles({
       root: {
