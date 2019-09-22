@@ -15,8 +15,8 @@ import Grid from "@material-ui/core/Grid";
 import DragAreaPicture from "./dragAreaPicture/DragAreaPicture";
 import { Typography, Paper } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import ThemeInfo from './themeInfo/ThemeInfo';
-import Shades from './shades/Shades';
+import ThemeInfo from "./themeInfo/ThemeInfo";
+import Shades from "./shades/Shades";
 
 /**
  * TODO:add contrast ratio for accessibility https://polished.js.org/docs/#meetscontrastguidelines
@@ -114,31 +114,35 @@ export default () => {
           <Typography variant="h4" color="primary">
             Upload your logo
           </Typography>
-
-          {!uploaded && <DragAreaPicture onComplete={imageUploaded} />}
-          {uploaded && (
-            <>
-              <img
-                crossOrigin={"anonymous"}
-                src={uploaded.toString()}
-                ref={imgRef}
-                alt="uploader"
-                width={widthHeight.width}
-                height={widthHeight.height}
-                onLoad={getColor}
-                className={classes.imageLoader}
-              />
-              <img
-                crossOrigin={"anonymous"}
-                src={uploaded.toString()}
-                alt="uploaded"
-                className={classes.imageDisplayed}
-              />
-              <DragAreaPicture onComplete={imageUploaded} small />
-            </>
-          )}
-        
-        <Shades primaryColor={color} secondaryColor={blue[600]} />
+          <Grid container spacing={3}>
+            <Grid item xs={6}>
+              {!uploaded && <DragAreaPicture onComplete={imageUploaded} />}
+              {uploaded && (
+                <>
+                  <img
+                    crossOrigin={"anonymous"}
+                    src={uploaded.toString()}
+                    ref={imgRef}
+                    alt="uploader"
+                    width={widthHeight.width}
+                    height={widthHeight.height}
+                    onLoad={getColor}
+                    className={classes.imageLoader}
+                  />
+                  <img
+                    crossOrigin={"anonymous"}
+                    src={uploaded.toString()}
+                    alt="uploaded"
+                    className={classes.imageDisplayed}
+                  />
+                  <DragAreaPicture onComplete={imageUploaded} small />
+                </>
+              )}
+            </Grid>
+            <Grid item xs={6}>
+              <Shades primaryColor={color} secondaryColor={blue[600]} />
+            </Grid>
+          </Grid>
         </Paper>
         <Grid container spacing={3}>
           <Grid item xs={6}>

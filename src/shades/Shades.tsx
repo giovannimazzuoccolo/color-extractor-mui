@@ -1,4 +1,5 @@
 import * as React from "react";
+import Button from '@material-ui/core/Button'
 
 interface IProps {
   primaryColor: string;
@@ -6,22 +7,16 @@ interface IProps {
 }
 
 const Palette: React.FunctionComponent<IProps> = (props: IProps) => {
-  const SinglePalette = (props: { color: string }) => {
-    const { color } = props;
-    return <div style={{
-      minWidth: '200px',
-      backgroundColor: color,
-      color: '#fff',
-      padding: '4px 0px',
-      textAlign: 'center',
-      textTransform: 'uppercase'
-    }}>Shades</div>;
+  const SinglePalette = (props: { name:"primary"|"secondary" }) => {
+    const { name } = props;
+    return <Button color={name} variant="contained" >
+    Change Shade</Button>;
   };
 
   return (
     <div>
-      <SinglePalette color={props.primaryColor} />
-      <SinglePalette color={props.secondaryColor} />
+      <SinglePalette name="primary" />
+      <SinglePalette name="secondary"/>
     </div>
   );
 };

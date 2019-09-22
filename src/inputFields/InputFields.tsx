@@ -15,8 +15,8 @@ const InputFields: React.FunctionComponent = () => {
       root: {
         marginTop: 10
       },
-      button: {
-        marginRight: 10,
+      input: {
+        marginBottom: 10
       },
       formControl: {
         margin: theme.spacing(1),
@@ -29,11 +29,16 @@ const InputFields: React.FunctionComponent = () => {
   const classes = useStyles();
   return (
     <Grid classes={{ root: classes.root }}>
-      <Typography variant="h4" color="primary">
-        Input fields
-      </Typography>
       <FormControl className={classes.formControl}>
-        <TextField id="standard-name" label="Name" margin="normal" />
+        <Typography variant="h4" color="primary" className={classes.input}>
+          Input fields
+        </Typography>
+        <TextField
+          id="standard-name"
+          label="Name"
+          margin="normal"
+          className={classes.input}
+        />
 
         <Select
           value={10}
@@ -46,12 +51,12 @@ const InputFields: React.FunctionComponent = () => {
           <MenuItem value={20}>Twenty</MenuItem>
           <MenuItem value={30}>Thirty</MenuItem>
         </Select>
+        
         <FormControlLabel
-        control={<Checkbox value="checkedC" />}
-        label="Uncontrolled"
-      />
+          control={<Checkbox value="checkedC" className={classes.input} />}
+          label="Uncontrolled"
+        />
       </FormControl>
-      
     </Grid>
   );
 };
