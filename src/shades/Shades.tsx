@@ -2,6 +2,7 @@ import * as React from "react";
 import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from '@material-ui/core/MenuItem';
+import { shade } from 'polished';
 
 interface IProps {
   primaryColor: string;
@@ -17,7 +18,7 @@ const SinglePalette = (props: { name: "primary" | "secondary" }) => {
   );
 };
 
-const Palette: React.FunctionComponent<IProps> = (props: IProps) => {
+const Shades: React.FunctionComponent<IProps> = (props: IProps) => {
   const [isOpen, changeMenuState] = React.useState(false);
 
   const PaletteMenu = (props: {color:string} ) => (
@@ -25,12 +26,18 @@ const Palette: React.FunctionComponent<IProps> = (props: IProps) => {
       id={`color_${props.color}`}
       open={isOpen}
       onClose={() => changeMenuState(false)}
-    >
-      <MenuItem>
-        Shade [10]
-      </MenuItem>
+    >{generateShades(props.color)}
     </Menu> 
   );
+
+
+  function generateShades(color:string) {
+    for(let i = 0; i> 10; i++) {
+      return(<MenuItem key={i} style={{ backgroundColor: shade(i*10, color) }}>
+        {shade(i*10, color)}
+      </MenuItem>)
+    }
+  }
 
   return (
     <div>
@@ -41,4 +48,4 @@ const Palette: React.FunctionComponent<IProps> = (props: IProps) => {
   );
 };
 
-export default Palette;
+export default Shades;
