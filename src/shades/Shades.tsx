@@ -2,48 +2,57 @@ import * as React from "react";
 import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from '@material-ui/core/MenuItem';
-import { shade } from 'polished';
+import { shade, tint } from 'polished';
 
 interface IProps {
   primaryColor: string;
   secondaryColor: string;
 }
 
-const SinglePalette = (props: { name: "primary" | "secondary" }) => {
-  const { name } = props;
-  return (
-    <Button color={name} variant="contained">
-      Change Shade
-    </Button>
-  );
-};
+
 
 const Shades: React.FunctionComponent<IProps> = (props: IProps) => {
-  const [isOpen, changeMenuState] = React.useState(false);
+  const [isOpen, changeMenuState] = React.useState<null | HTMLElement>(null);
 
-  const PaletteMenu = (props: {color:string} ) => (
+  const ShadeMenu = () => (
     <Menu
-      id={`color_${props.color}`}
-      open={isOpen}
-      onClose={() => changeMenuState(false)}
-    >{generateShades(props.color)}
+      id={`color_${props.primaryColor}`}
+      open={Boolean(isOpen)}
+      onClose={() => changeMenuState(null)}
+      anchorEl={isOpen}
+    >{generateShades(props.primaryColor)}
     </Menu> 
   );
 
+  const SinglePalette = (props: { name: "primary" | "secondary" }) => {
+    const { name } = props;
+    return (
+      <Button color={name} variant="contained" onClick={(e) => {
+        changeMenuState(e.currentTarget);
+      }}>
+        Change Shade
+      </Button>
+    );
+  };
+
 
   function generateShades(color:string) {
-    for(let i = 0; i> 10; i++) {
-      return(<MenuItem key={i} style={{ backgroundColor: shade(i*10, color) }}>
-        {shade(i*10, color)}
+    
+    let items = [];
+    for(let index = 0; index < 10; index++) {
+      items.push(<MenuItem key={index} style={{ backgroundColor: tint(index/10, color) }}>
+        {shade((index/10), color)}
       </MenuItem>)
     }
+
+    return items;
   }
 
   return (
     <div>
       <SinglePalette name="primary" />
-      <SinglePalette name="secondary" />
-      <PaletteMenu color="#fff" />
+      {isOpen && <ShadeMenu />}
+      {/*<SinglePalette name="secondary" />*/}
     </div>
   );
 };
