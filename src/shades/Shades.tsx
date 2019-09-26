@@ -1,48 +1,60 @@
 import * as React from "react";
 import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
-import MenuItem from '@material-ui/core/MenuItem';
-import { shade, tint } from 'polished';
+import MenuItem from "@material-ui/core/MenuItem";
+import { shade, tint } from "polished";
 
 interface IProps {
   primaryColor: string;
   secondaryColor: string;
 }
 
-
-
 const Shades: React.FunctionComponent<IProps> = (props: IProps) => {
-  const [isOpen, changeMenuState] = React.useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
-  const ShadeMenu = () => (
-    <Menu
-      id={`color_${props.primaryColor}`}
-      open={Boolean(isOpen)}
-      onClose={() => changeMenuState(null)}
-      anchorEl={isOpen}
-    >{generateShades(props.primaryColor)}
-    </Menu> 
-  );
-
-  const SinglePalette = (props: { name: "primary" | "secondary" }) => {
+  /*const SinglePalette = (props: { name: "primary" | "secondary" }) => {
     const { name } = props;
     return (
-      <Button color={name} variant="contained" onClick={(e) => {
-        changeMenuState(e.currentTarget);
-      }}>
+      <Button
+        color={name}
+        variant="contained"
+        onClick={handleClick}
+        aria-controls="demo"
+        aria-haspopup="true"
+      >
         Change Shade
       </Button>
     );
-  };
+  };*/
 
-
-  function generateShades(color:string) {
-    
+  function generateShades(color: string) {
     let items = [];
-    for(let index = 0; index < 10; index++) {
-      items.push(<MenuItem key={index} style={{ backgroundColor: tint(index/10, color) }}>
-        {shade((index/10), color)}
-      </MenuItem>)
+    for (let index = 4; index > 0; index--) {
+      items.push(
+        <MenuItem
+          key={index}
+          style={{ backgroundColor: tint(index / 10, color) }}
+        >
+          {tint(index / 10, color)}
+        </MenuItem>
+      );
+    }
+
+    for (let index = 0; index < 5; index++) {
+      items.push(
+        <MenuItem
+          key={index}
+          style={{ backgroundColor: shade(index / 10, color) }}
+        >
+          {shade(index / 10, color)}
+        </MenuItem>
+      );
     }
 
     return items;
@@ -50,9 +62,25 @@ const Shades: React.FunctionComponent<IProps> = (props: IProps) => {
 
   return (
     <div>
-      <SinglePalette name="primary" />
-      {isOpen && <ShadeMenu />}
-      {/*<SinglePalette name="secondary" />*/}
+      <Button
+        color={"primary"}
+        variant="contained"
+        onClick={handleClick}
+        aria-controls="demo"
+        aria-haspopup="true"
+      >
+        Change Shade
+      </Button>
+      <Menu
+        
+        id="demo"
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+        anchorEl={anchorEl}
+        keepMounted
+      >
+        {generateShades(props.primaryColor)}
+      </Menu>
     </div>
   );
 };
