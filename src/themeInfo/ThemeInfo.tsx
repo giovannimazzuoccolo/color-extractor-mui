@@ -1,16 +1,14 @@
 import * as React from "react";
 import Typography from "@material-ui/core/Typography";
-import { ChromePicker } from 'react-color';
+import { ChromePicker } from "react-color";
 import { Button } from "@material-ui/core";
 
 interface IProps {
-    color: string;
-  }
+  color: string;
+}
 
 const ThemeInfo: React.FunctionComponent<IProps> = (props: IProps) => {
-
-  const [ changeColorButton, changeColorButtonFunc ] = React.useState(false);
-
+  const [changeColorButton, changeColorButtonFunc] = React.useState(false);
 
   return (
     <>
@@ -18,13 +16,18 @@ const ThemeInfo: React.FunctionComponent<IProps> = (props: IProps) => {
         Theme info
       </Typography>
       <Typography>
-      <Button onClick={(e) => {
-          changeColorButtonFunc(!changeColorButton)
-        }}>Change Color</Button> Primary color: <strong>{props.color}</strong> 
+        Primary color: <strong>{props.color}</strong>{" "}
+        <Button
+          color="primary"
+          onClick={e => {
+            changeColorButtonFunc(!changeColorButton);
+          }}
+        >
+          Change Color
+        </Button>
         {changeColorButton && <ChromePicker color={props.color} />}
         <br />
         Secondary color: <strong>{props.color}</strong>
-
       </Typography>
     </>
   );
