@@ -140,7 +140,9 @@ export default () => {
               )}
             </Grid>
             <Grid item xs={6}>
-              <Shades primaryColor={color} secondaryColor={blue[600]} />
+              <Shades color={color} changeColor={setColor} type="primary" />
+              <Shades color={blue[500]} changeColor={setColor} type="secondary" />
+
             </Grid>
           </Grid>
         </Paper>

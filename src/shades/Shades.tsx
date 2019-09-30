@@ -7,8 +7,9 @@ import CheckCircleOutline from "@material-ui/icons/CheckCircleOutline";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 
 interface IProps {
-  primaryColor: string;
-  secondaryColor: string;
+  color: string;
+  changeColor: Function;
+  type: "primary" | "secondary";
 }
 
 const Shades: React.FunctionComponent<IProps> = (props: IProps) => {
@@ -19,12 +20,13 @@ const Shades: React.FunctionComponent<IProps> = (props: IProps) => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center"
+      },
+      button : {
+        marginBottom: 8
       }
     })
   );
   const classes = useStyles();
-
-
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -34,41 +36,30 @@ const Shades: React.FunctionComponent<IProps> = (props: IProps) => {
     setAnchorEl(null);
   };
 
-  /*const SinglePalette = (props: { name: "primary" | "secondary" }) => {
-    const { name } = props;
-    return (
-      <Button
-        color={name}
-        variant="contained"
-        onClick={handleClick}
-        aria-controls="demo"
-        aria-haspopup="true"
-      >
-        Change Shade
-      </Button>
-    );
-  };*/
-
-  function generateShades (color: string) {
-
-    function isSelected (shade:string) {
-      return shade === color && <CheckCircleOutline />
+  function generateShades(color: string) {
+    function isSelected(shade: string) {
+      return shade === color && <CheckCircleOutline />;
     }
 
-    function checkContrast(shade:string):boolean {
-      const aObj = meetsContrastGuidelines(shade, 'rgba(0, 0, 0, 0.87)');
+    function checkContrast(shade: string): boolean {
+      const aObj = meetsContrastGuidelines(shade, "rgba(0, 0, 0, 0.87)");
       return aObj.AAA;
     }
 
     let items = [];
     for (let index = 4; index > 0; index--) {
-      console.log(meetsContrastGuidelines(tint(index / 10, color), color));
-
       items.push(
         <MenuItem
-          key={index+'t'}
-          style={{ backgroundColor: tint(index / 10, color), color : checkContrast(tint(index / 10, color)) ? 'inherit' : '#fff' }}
-          className={classes.root}
+          key={index + "t"}
+          style={{
+            backgroundColor: tint(index / 10, color),
+            color: checkContrast(tint(index / 10, color)) ? "inherit" : "#fff"
+          }}
+          className={classes.root} //TODO: wrap in one func
+          onClick={() => {
+            props.changeColor(tint(index / 10, color));
+            handleClose();
+          }}
         >
           {isSelected(shade(index / 10, color))}
           {tint(index / 10, color)}
@@ -79,9 +70,16 @@ const Shades: React.FunctionComponent<IProps> = (props: IProps) => {
     for (let index = 0; index < 5; index++) {
       items.push(
         <MenuItem
-          key={index+'s'}
-          style={{ backgroundColor: shade(index / 10, color), color : checkContrast(shade(index / 10, color)) ? 'inherit' : '#fff'  }}
+          key={index + "s"}
+          style={{
+            backgroundColor: shade(index / 10, color),
+            color: checkContrast(shade(index / 10, color)) ? "inherit" : "#fff"
+          }}
           className={classes.root}
+          onClick={() => {
+            props.changeColor(tint(index / 10, color));
+            handleClose();
+          }}
         >
           {isSelected(shade(index / 10, color))}
           {shade(index / 10, color)}
@@ -95,23 +93,23 @@ const Shades: React.FunctionComponent<IProps> = (props: IProps) => {
   return (
     <div>
       <Button
-        color={"primary"}
+        color={props.type}
         variant="contained"
         onClick={handleClick}
         aria-controls="demo"
         aria-haspopup="true"
+        className={classes.button}
       >
         Change Shade
       </Button>
       <Menu
-        
         id="demo"
         open={Boolean(anchorEl)}
         onClose={handleClose}
         anchorEl={anchorEl}
         keepMounted
       >
-        {generateShades(props.primaryColor)}
+        {generateShades(props.color)}
       </Menu>
     </div>
   );
