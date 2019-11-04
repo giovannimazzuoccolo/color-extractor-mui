@@ -18,10 +18,6 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import ThemeInfo from "./themeInfo/ThemeInfo";
 import Shades from "./shades/Shades";
 
-/**
- * TODO:add contrast ratio for accessibility https://polished.js.org/docs/#meetscontrastguidelines
- * add a menu for palette
- */
 
 export default () => {
   const [theme, setTheme] = React.useState<AugmentedTheme>(
@@ -35,6 +31,7 @@ export default () => {
   );
 
   const [color, setColor] = React.useState<string>(blue[500]);
+  const [secondaryColor, setSecondaryColor] = React.useState<string>(blue[500]);
 
   const [uploaded, setUpload] = React.useState<
     HTMLImageElement | string | null
@@ -140,9 +137,8 @@ export default () => {
               )}
             </Grid>
             <Grid item xs={6}>
-              <Shades color={color} changeColor={setColor} type="primary" />
-              <Shades color={blue[500]} changeColor={setColor} type="secondary" />
-
+              <Shades originalColor={color} actualColor={color} changeColor={setColor} type="primary" />
+              <Shades actualColor={secondaryColor} originalColor={secondaryColor} changeColor={setColor} type="secondary" />
             </Grid>
           </Grid>
         </Paper>

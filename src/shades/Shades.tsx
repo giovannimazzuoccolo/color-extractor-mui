@@ -5,9 +5,11 @@ import MenuItem from "@material-ui/core/MenuItem";
 import { shade, tint, meetsContrastGuidelines } from "polished";
 import CheckCircleOutline from "@material-ui/icons/CheckCircleOutline";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
+import { ContrastScores } from "polished/lib/types/color";
 
 interface IProps {
-  color: string;
+  originalColor: string;
+  actualColor: string;
   changeColor: Function;
   type: "primary" | "secondary";
 }
@@ -41,9 +43,9 @@ const Shades: React.FunctionComponent<IProps> = (props: IProps) => {
       return shade === color && <CheckCircleOutline />;
     }
 
-    function checkContrast(shade: string): boolean {
+    function checkContrast(shade: string): ContrastScores {
       const aObj = meetsContrastGuidelines(shade, "rgba(0, 0, 0, 0.87)");
-      return aObj.AAA;
+      return aObj;
     }
 
     let items = [];
@@ -53,7 +55,7 @@ const Shades: React.FunctionComponent<IProps> = (props: IProps) => {
           key={index + "t"}
           style={{
             backgroundColor: tint(index / 10, color),
-            color: checkContrast(tint(index / 10, color)) ? "inherit" : "#fff"
+            color: checkContrast(tint(index / 10, color)).AAA ? "inherit" : "#fff"
           }}
           className={classes.root} //TODO: wrap in one func
           onClick={() => {
@@ -73,7 +75,7 @@ const Shades: React.FunctionComponent<IProps> = (props: IProps) => {
           key={index + "s"}
           style={{
             backgroundColor: shade(index / 10, color),
-            color: checkContrast(shade(index / 10, color)) ? "inherit" : "#fff"
+            color: checkContrast(shade(index / 10, color)).AAA ? "inherit" : "#fff"
           }}
           className={classes.root}
           onClick={() => {
@@ -109,7 +111,7 @@ const Shades: React.FunctionComponent<IProps> = (props: IProps) => {
         anchorEl={anchorEl}
         keepMounted
       >
-        {generateShades(props.color)}
+        {generateShades(props.originalColor)}
       </Menu>
     </div>
   );
