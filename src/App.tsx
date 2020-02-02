@@ -18,7 +18,6 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import ThemeInfo from "./themeInfo/ThemeInfo";
 import Shades from "./shades/Shades";
 
-
 export default () => {
   const [theme, setTheme] = React.useState<AugmentedTheme>(
     createMuiTheme({
@@ -137,8 +136,22 @@ export default () => {
               )}
             </Grid>
             <Grid item xs={6}>
-              <Shades originalColor={color} actualColor={color} changeColor={setColor} type="primary" />
-              <Shades actualColor={secondaryColor} originalColor={secondaryColor} changeColor={setColor} type="secondary" />
+              {uploaded && (
+                <>
+                  <Shades
+                    originalColor={color}
+                    actualColor={color}
+                    changeColor={setColor}
+                    type="primary"
+                  />
+                  <Shades
+                    actualColor={secondaryColor}
+                    originalColor={secondaryColor}
+                    changeColor={setColor}
+                    type="secondary"
+                  />
+                </>
+              )}
             </Grid>
           </Grid>
         </Paper>
